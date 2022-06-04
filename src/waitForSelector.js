@@ -1,5 +1,6 @@
 const successfullyLoggedInSelector = `img[alt*="${process.env.NAME}"]`;
 const maxTimeoutForSelectorWait = 3000;
+const loginFormSelector = "#loginForm";
 const waitForSelectorConfig = {
   timeout: maxTimeoutForSelectorWait,
 };

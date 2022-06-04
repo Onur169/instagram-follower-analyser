@@ -17,7 +17,6 @@ function sleep(ms) {
   const instagramLoginUrl = `${process.env.INSTAGRAM_STARTPAGE}/accounts/login/`;
   const inputUsernameSelector = 'input[name="username"]';
   const inputPasswordSelector = 'input[name="password"]';
-  const loginFormSelector = "#loginForm";
   const cookiesPath = "./cookies.json";
 
   const browser = await puppeteer.launch({
