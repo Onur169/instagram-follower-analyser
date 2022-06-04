@@ -1,5 +1,5 @@
 const successfullyLoggedInSelector = `img[alt*="${process.env.NAME}"]`;
-const maxTimeoutForSelectorWait = 3000;
+const maxTimeoutForSelectorWait = 5000;
 const loginFormSelector = "#loginForm";
 const waitForSelectorConfig = {
   timeout: maxTimeoutForSelectorWait,
@@ -19,6 +19,7 @@ function waitForLoginFormSelector(page) {
 module.exports = {
   successfullyLoggedInSelector,
   maxTimeoutForSelectorWait,
+  loginFormSelector,
   waitForLoginFormSelector,
   waitForLoggedInSelector,
 };
