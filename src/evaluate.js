@@ -18,7 +18,7 @@ function findFollowers(page, innerHtmlSearchStr) {
       const followers = await page.evaluate((args) => {
         let collectFollowers = [];
         const buttons = document?.querySelectorAll("button");
-        if(typeof buttons === "undefined") {
+        if (typeof buttons === "undefined") {
           reject("no buttons available");
         }
         [...buttons]
@@ -42,4 +42,33 @@ function findFollowers(page, innerHtmlSearchStr) {
   });
 }
 
-module.exports = { findButtonAndClick, findFollowers };
+function findSelectorAndScrollDown(page, selector) {
+  const args = { selector };
+  return page.evaluate((args) => {
+    let collectScrollHeights = [-1];
+    let interval = setInterval(() => {
+      const scrollableSection = document
+        .querySelector(args.selector)
+        .querySelector("ul").parentElement;
+      console.log(scrollableSection);
+      if (scrollableSection) {
+        if (collectScrollHeights[collectScrollHeights.length - 1] === scrollableSection.scrollHeight) {
+          clearInterval(interval);
+        }
+        scrollableSection.scrollTop = 0;
+        scrollableSection.scrollTop = scrollableSection.scrollHeight;
+        collectScrollHeights.push(scrollableSection.scrollHeight);
+        console.log(
+          scrollableSection.scrollHeight,
+          scrollableSection.offsetHeight
+        );
+      }
+    }, 1000);
+  }, args);
+}
+
+module.exports = {
+  findButtonAndClick,
+  findFollowers,
+  findSelectorAndScrollDown,
+};

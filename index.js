@@ -1,11 +1,17 @@
 const puppeteer = require("puppeteer");
 const fs = require("fs").promises;
 require("dotenv").config();
-const { findButtonAndClick, findFollowers } = require("./src/evaluate");
+const {
+  findButtonAndClick,
+  findFollowers,
+  findSelectorAndScrollDown,
+} = require("./src/evaluate");
 const {
   maxTimeoutForSelectorWait,
   waitForLoginFormSelector,
   waitForLoggedInSelector,
+  waitForFollowersDialogSelector,
+  followersDialogSelector,
 } = require("./src/waitForSelector");
 
 function sleep(ms) {
@@ -44,13 +50,14 @@ function sleep(ms) {
     await findButtonAndClick(page, "Aktivieren");
     await page.goto(instagramFollowersUrl);
     await page.waitForNavigation({ waitUntil: "networkidle0" });
-    await page.waitForSelector("div[role=dialog]", maxTimeoutForSelectorWait);
-    try {
-      const followers = await findFollowers(page, "Entfernen");
-      console.log("Follower-List", followers);
-    } catch (error) {
-      console.error("Cannot retrieve followers list", error);
-    }
+    await waitForFollowersDialogSelector(page);
+    await findSelectorAndScrollDown(page, followersDialogSelector);
+    // try {
+    //   const followers = await findFollowers(page, "Entfernen");
+    //   console.log("Follower-List", followers);
+    // } catch (error) {
+    //   console.error("Cannot retrieve followers list", error);
+    // }
   };
 
   const handleWaitForLoggedInSelector = async (cookieExists) => {
